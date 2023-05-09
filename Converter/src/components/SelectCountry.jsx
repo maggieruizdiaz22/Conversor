@@ -26,7 +26,6 @@ const SelectCountry = (props) => {
         disableClearable
         value={value}
         onChange={(event, newValue) => {
-          console.log("New value selected: ", newValue);
           setValue(newValue);
           
         }}
