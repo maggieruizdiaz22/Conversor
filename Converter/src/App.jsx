@@ -193,7 +193,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
         onChange={handleChange}
         aria-label="Custom tabs"
         variant={isMobile ? "scrollable" : "standard"}
-        scrollButtons={isMobile ? "auto" : "off"}
+        scrollButtons={true}
         sx={{
           '& .MuiTabs-indicator': styles.indicator,
         }}
@@ -250,8 +250,6 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
       ) : ""}
       </div>
       )}
-   
-
     </Container>
   )
 }
