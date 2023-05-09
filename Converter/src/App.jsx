@@ -118,7 +118,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     if(firstAmount1) {
       axios("https://api.freecurrencyapi.com/v1/latest", {
         params: {
-          apikey: import.meta.env.VITE_API_KEY,
+          apikey: "H9v7MBlHJvS4xwjyAIFgnuaA1Z1lCQgBZ37SIKrM",
           base_currency: codeFromCurrency,
           currencies: codeToCurrency
         }
