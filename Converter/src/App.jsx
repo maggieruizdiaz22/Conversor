@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Tab, Typography, Tabs, Link } from '@mui/material'
+import { Box, Container, Grid, Tab, Typography, Tabs, useMediaQuery, useTheme } from '@mui/material'
 import InoutAmount from './components/InoutAmount'
 import SelectCountry from './components/SelectCountry'
 import { useContext,useEffect } from 'react'
@@ -27,6 +27,8 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   // const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
@@ -116,7 +118,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     if(firstAmount1) {
       axios("https://api.freecurrencyapi.com/v1/latest", {
         params: {
-          apikey: "H9v7MBlHJvS4xwjyAIFgnuaA1Z1lCQgBZ37SIKrM",
+          apikey: import.meta.env.VITE_API_KEY,
           base_currency: codeFromCurrency,
           currencies: codeToCurrency
         }
@@ -190,6 +192,8 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
         value={value}
         onChange={handleChange}
         aria-label="Custom tabs"
+        variant={isMobile ? "scrollable" : "standard"}
+        scrollButtons={isMobile ? "auto" : "off"}
         sx={{
           '& .MuiTabs-indicator': styles.indicator,
         }}
@@ -199,6 +203,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
           sx={{
             ...styles.tab,
             ...(value === 0 && styles.selectedTab),
+            maxWidth: isMobile ? "100%" : "none",
           }}
         />
         <Tab
@@ -206,7 +211,9 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
           sx={{
             ...styles.tab,
             ...(value === 1 && styles.selectedTab),
+            maxWidth: isMobile ? "100%" : "none",
           }}
+         
         />
       </Tabs>
       
