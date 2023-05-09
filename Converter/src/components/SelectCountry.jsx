@@ -1,6 +1,7 @@
 import { Autocomplete, Grid, Skeleton, TextField } from '@mui/material'
 import React from 'react'
 import UseAxios from './hooks/UseAxios'
+import Loader from './Loader'
 
 const SelectCountry = (props) => {
     const {value,setValue, label} = props //Son usados para establecer y cambiar el valor seleccionado en autocomplete
@@ -12,9 +13,6 @@ const SelectCountry = (props) => {
             <Skeleton  variant="rouded" height={60}/>
             </Grid>
             )}
-   if(error){
-    return "Something went wrong!"
-   }
 
    const dataFilter = data.filter((item) => "casa" in item && item.casa.nombre.indexOf("Dolar") !== -1);
    const dolars = dataFilter.map((item) => {

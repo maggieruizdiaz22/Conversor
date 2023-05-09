@@ -8,6 +8,7 @@ import axios from 'axios'
 import Universal from './components/Universal'
 import SwitchCurrency from './components/SwitchCurrency'
 import InoutUniversal from './components/hooks/InoutUniversal'
+import Loader from './components/Loader'
 
 function App() {
 const {
@@ -24,6 +25,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
   const [error, setError] = useState(false);//manejar los errores de la api
   const [value, setValue] = useState(0);
   const [buyingRate, setBuyingRate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

@@ -1,5 +1,6 @@
 import { Autocomplete, Grid, Skeleton, TextField } from "@mui/material"
 import UseAxios from "./hooks/UseAxios";
+import Loader from "./Loader";
 
 const Universal = (props) => {
   const { value1, setValue1, label1 } = props;
@@ -12,9 +13,7 @@ const Universal = (props) => {
       </Grid>
     )
   }
-  if(error) {
-    return "Something went wrong!"
-  }
+  
 
   const dataFilter = data.filter(item => "currencies" in item);
   const dataCountries = dataFilter.map(item => {
