@@ -9,7 +9,7 @@ const InoutAmount = () => {
         <TextField
         value={firstAmount}
         onChange={e=>setFirstAmount(e.target.value)}
-        label= "Monto"
+        label= "Monto en USD"
         fullWidth
         InputProps={{
             type: "number",

@@ -8,7 +8,6 @@ import axios from 'axios'
 import Universal from './components/Universal'
 import SwitchCurrency from './components/SwitchCurrency'
 import InoutUniversal from './components/hooks/InoutUniversal'
-import Loader from './components/Loader'
 
 function App() {
 const {
@@ -25,13 +24,12 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
   const [error, setError] = useState(false);//manejar los errores de la api
   const [value, setValue] = useState(0);
   const [buyingRate, setBuyingRate] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  // const [chartData, setChartData] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +49,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
           return acc;
         }, {});
         setConversionRate(conversionRates); // Me guardo los datos obtenidos en el estado
+        setBuyingRate(conversionRates)
         setError(false);
       } catch (error) {
         console.log(error);
@@ -59,58 +58,6 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const startDate = '2019-01-01';
-  //       const endDate = '2023-05-01';
-  //       const baseCurrency = 'ARS';
-  //       const targetCurrency = 'USD';
-  //       const apiUrl = `https://api.exchangerate-api.com/v4/timeseries?start_date=${startDate}&end_date=${endDate}&base=${baseCurrency}&symbols=${targetCurrency}`;
-
-  //       const response = await fetch(apiUrl);
-  //       const data = await response.json();
-        
-  //       const rates = data.rates;
-  //       const dates = Object.keys(rates);
-  //       const exchangeRates = Object.values(rates).map((rate) => rate[targetCurrency]);
-        
-  //       const ctx = document.getElementById('dollarChart').getContext('2d');
-  //       const chart = new Chart(ctx, {
-  //         type: 'line',
-  //         data: {
-  //           labels: dates,
-  //           datasets: [
-  //             {
-  //               label: 'Cotización del dólar en Argentina',
-  //               data: exchangeRates,
-  //               borderColor: 'rgb(255, 99, 132)',
-  //               borderWidth: 2,
-  //             },
-  //           ],
-  //         },
-  //         options: {
-  //           responsive: true,
-  //           plugins: {
-  //             legend: {
-  //               position: 'top',
-  //             },
-  //             title: {
-  //               display: true,
-  //               text: 'Cotización del dólar en Argentina',
-  //             },
-  //           },
-  //         },
-  //       });
-
-  //       setChart(chart);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
      
   const [resultCurrency, setResultCurrency] = useState(0);
   const codeFromCurrency = fromCurrency.split(" ")[1];
@@ -131,16 +78,12 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
   }, [firstAmount1, fromCurrency, toCurrency])
 
 
-  useEffect(() => {
-    if (conversionRate && fromCurrency) {
-      const currencyCode = fromCurrency.split(" ")[1];
-      const rate = conversionRate[currencyCode];
-      if (rate) {
-        const buyingRateValue = parseFloat(rate.compra.replace(",", "."));
-        setBuyingRate(buyingRateValue);
-      }
-    }
-  }, [conversionRate, fromCurrency]);
+let result2 = null;
+if (firstAmount && divisa && conversionRate) {
+  const rate = parseFloat(conversionRate[divisa].compra.replace(",", "."));
+  const amount = parseFloat(firstAmount);
+  result2 = (amount * rate).toFixed(2);
+}
 
   let result = null;
   if (firstAmount && divisa && conversionRate) {
@@ -161,6 +104,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
     position: "relative",
   };
+
 
   const styles = {
     tab: {
@@ -186,6 +130,8 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
       transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms, left 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     },
   };
+
+
 
   return (
     <Container maxWidth="md" sx={boxStyles} >
@@ -222,22 +168,34 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     </Box>
     {value === 0 && (
         <div>
-          <Typography variant='h5' sx={{marginBottom: "2rem",marginTop:"2rem" }}>Conversor Peso-Dolar</Typography>
+          <Typography variant='h5' sx={{ marginBottom: "2rem", marginTop: "2rem", fontFamily: "Courier New, monospace"}}>
+           Conversor Peso-Dolar
+           </Typography>
           <Grid container spacing={2} sx={{ marginBottom:"20px",}} >
             <InoutAmount />
             <SelectCountry label="Divisa" value={divisa} setValue={setDivisa} />
           </Grid>
           {result !== null && (
-            <Box sx={{ textAlign: "left", marginTop: "1rem"}}>
-              <Typography variant='h5' sx={{ marginTop: "5px", marginBottom:"15px", fontWeight: "bold", color:"gray" }}>{firstAmount} 🇺🇸 USD-United States =</Typography>
-              <Typography variant='h5' sx={{ marginTop: "5px", fontWeight: "bold"}}>{result} 🇦🇷  ARS - Argentina - {divisa}</Typography>
-            </Box>
+    <Box sx={{ textAlign: "left", marginTop: "1rem", backgroundColor: "#f8f8f8", padding: "1.5rem", borderRadius: "10px" }}>
+    <Typography variant="h5" sx={{ marginBottom: "1rem",color: "#333", fontFamily: "Courier New, monospace" }}>
+      {firstAmount} 🇺🇸 USD-United States =
+    </Typography>
+    <Typography variant="h5" sx={{ marginBottom: "0.5rem", color: "#555", fontFamily: "Courier New, monospace"}}>
+      🇦🇷  ARS - Argentina - {divisa}
+    </Typography>
+    <Typography variant="h5" sx={{ marginBottom: "0.5rem", fontFamily: "Courier New, monospace"}}>
+      Venta: <span style={{ color: "#007bff" }}>$ {result}</span> 
+    </Typography>
+    <Typography variant="h5" sx={{fontFamily: "Courier New, monospace"}}>
+      Compra: <span style={{ color: "#007bff", fontFamily: "Courier New, monospace"}}>$ {result2}</span> 
+    </Typography>
+  </Box> 
           )}
         </div>
       )}
       {value === 1 && (
         <div>
-        <Typography variant='h5' sx={{marginBottom: "2rem",marginTop:"2rem" }}>Conversor Universal</Typography>
+        <Typography variant='h5' sx={{marginBottom: "2rem",marginTop:"2rem", fontFamily: "Courier New, monospace" }}>Conversor Universal</Typography>
         <Grid container spacing={2} sx={{ marginBottom:"20px",}} >
           <InoutUniversal />
           <Universal  value1={fromCurrency} setValue1={setFromCurrency} label1="from" />
@@ -245,9 +203,9 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
           <Universal  value1={toCurrency} setValue1={setToCurrency} label1="to" />
         </Grid>
         {firstAmount1 ? (
-        <Box sx={{ textAlign: "left", marginTop: "1rem"}}>
-          <Typography>{firstAmount1} {fromCurrency} =</Typography>
-          <Typography variant='h5' sx={{ marginTop: "5px", fontWeight: "bold"}}>{resultCurrency*firstAmount1} {toCurrency}</Typography>
+        <Box sx={{ textAlign: "left", marginTop: "1rem", backgroundColor: "#f8f8f8", padding: "1.5rem", borderRadius: "10px" }}>
+          <Typography variant='h5' sx={{ marginTop: "5px", fontFamily: "Courier New, monospace"}}>{firstAmount1} {fromCurrency} =</Typography>
+          <Typography variant='h5' sx={{ marginTop: "5px", fontFamily: "Courier New, monospace"}}>{resultCurrency*firstAmount1} {toCurrency}</Typography>
         </Box>
       ) : ""}
       </div>
