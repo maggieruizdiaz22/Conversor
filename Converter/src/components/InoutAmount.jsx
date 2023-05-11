@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { CurrencyContext } from './context/CurrencyContext'
 
 const InoutAmount = () => {
-  const {firstAmount, setFirstAmount} = useContext(CurrencyContext); //Esto viene de CurrencyContext
+  const {firstAmount, setFirstAmount} = useContext(CurrencyContext); 
   return (
     <Grid item xs={12} md>
         <TextField
