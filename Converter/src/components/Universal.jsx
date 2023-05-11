@@ -13,7 +13,6 @@ const Universal = (props) => {
       </Grid>
     )
   }
-  
 
   const includedCurrencies = ["AUD", "BGN", "BRL", "CAD", "CHF", "USD"];
   const dataFilter = data && data.filter((item) => {
@@ -24,8 +23,6 @@ const Universal = (props) => {
   const dataCountries = dataFilter?.map((item) => {
     return `${item.flag} ${Object.keys(item.currencies)[0]} - ${item.name.common}`;
   }) || [];
-
-  
 
   return (
     <Grid item xs={12} md={3}>
