@@ -4,8 +4,8 @@ import UseAxios from './hooks/UseAxios'
 import Loader from './Loader'
 
 const SelectCountry = (props) => {
-    const {value,setValue, label} = props //Son usados para establecer y cambiar el valor seleccionado en autocomplete
-    const [data,loaded,error] = UseAxios("https://www.dolarsi.com/api/api.php?type=valoresprincipales"); //Hago la solicitud a axios
+    const {value,setValue, label} = props 
+    const [data,loaded,error] = UseAxios("https://www.dolarsi.com/api/api.php?type=valoresprincipales"); 
 
     if(loaded) {
     return(
@@ -19,7 +19,6 @@ const SelectCountry = (props) => {
      return item.casa.nombre;
    });
    
-
   return (
     <Grid item xs={12} md={3}>
         <Autocomplete
