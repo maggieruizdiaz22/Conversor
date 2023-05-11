@@ -20,10 +20,13 @@ const {
   setToCurrency,
   firstAmount1 , 
 } = useContext(CurrencyContext)
-const [conversionRate, setConversionRate] = useState(null); // Guardo los datos de la conversion
-  const [error, setError] = useState(false);//manejar los errores de la api
+  const [conversionRate, setConversionRate] = useState(null); 
+  const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
   const [buyingRate, setBuyingRate] = useState(null);
+  const [resultCurrency, setResultCurrency] = useState(0);
+  const codeFromCurrency = fromCurrency.split(" ")[1];
+  const codeToCurrency = toCurrency.split(" ")[1];
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -45,10 +48,10 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
           acc[item.casa.nombre] = {
             venta: item.casa.venta,
             compra: item.casa.compra,
-          }; // Obtengo los tipos de dólares con precio de compra y venta
+          }; 
           return acc;
         }, {});
-        setConversionRate(conversionRates); // Me guardo los datos obtenidos en el estado
+        setConversionRate(conversionRates); 
         setBuyingRate(conversionRates)
         setError(false);
       } catch (error) {
@@ -58,11 +61,7 @@ const [conversionRate, setConversionRate] = useState(null); // Guardo los datos 
     };
     fetchData();
   }, []);
-     
-  const [resultCurrency, setResultCurrency] = useState(0);
-  const codeFromCurrency = fromCurrency.split(" ")[1];
-  const codeToCurrency = toCurrency.split(" ")[1];
-
+  
   useEffect(() => {
     if(firstAmount1) {
       axios("https://api.freecurrencyapi.com/v1/latest", {
@@ -130,9 +129,7 @@ if (firstAmount && divisa && conversionRate) {
       transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms, left 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     },
   };
-
-
-
+  
   return (
     <Container maxWidth="md" sx={boxStyles} >
  <Box sx={{ width: '100%', borderBottom: '1px solid #ddd', marginTop:"-3rem" }}>
