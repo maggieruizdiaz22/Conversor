@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react'
 export const CurrencyContext = createContext(); //Crea un contexto
 
 const CurrencyProvider = ({children}) => {
-    const [divisa , setDivisa] = useState("Dolar");  //inicia con valor dolar
+    const [divisa , setDivisa] = useState("Dolar");  
     const [firstAmount , setFirstAmount] = useState("");
     const [firstAmount1 , setFirstAmount1] = useState("");
     const [fromCurrency, setFromCurrency] = useState("🇺🇸 USD - United States");
